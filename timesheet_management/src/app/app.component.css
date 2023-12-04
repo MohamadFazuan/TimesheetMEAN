@@ -1,0 +1,12 @@
+.container {
+    margin: 50px
+}
+
+.top {
+    padding: 150px;
+    border-radius: 1px;
+    border-width: 1 px;
+    border-color: black;
+    width: auto;
+    text-align: center;
+}
