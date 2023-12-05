@@ -15,14 +15,16 @@ const dataSchema = new mongoose.Schema({
     },
     from: {
         required: true,
-        type: Date
+        type: String
     },
     to: {
         required: true,
-        type: Date
+        type: String
     },
     status: {
         required: true,
         type: String
     }
-})
+});
+
+module.exports = mongoose.model('Data', dataSchema);

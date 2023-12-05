@@ -1,11 +1,11 @@
 var { Model } = require('mongoose');
 
-var model = require('../model/model.js')
+var Data = require('../model/model.js')
 
-async function create(req, res, next){
-    const newData = req.data;
+async function create(req, res) {
+    const newData = req.body;
 
-    const data = new Model({
+    const data = new Data({
         project: newData.project,
         task: newData.task,
         assignedTo: newData.assignedTo,
@@ -18,25 +18,48 @@ async function create(req, res, next){
     res.status(200).json(dataSave);
 }
 
-async function readItem(){
+async function readItem(req, res, next) {
 
-}
+    const task = req.body.task
 
-async function readAll(req, res, next){
     try {
-        const data = await Model.find();
-        return data;
+        const data = await Data.findOne({ 'task': task })
+        res.status(200).json(data);
     } catch (error) {
-        return error;
+        res.status(201).json(error);
     }
 }
 
-async function updateItem(){
-
+async function readAll(req, res, next) {
+    try {
+        const data = await Data.find({});
+        res.status(200).json(data);
+    } catch (error) {
+        res.status(201).json(error);
+    }
 }
 
-async function deleteItem(){
+async function updateItem(req, res, next) {
+    const { id } = req.params;
+    const body = req.body;
 
+    try {
+        const data = await Data.findByIdAndUpdate(id, req.body);
+        req.status(200).json(data);
+    } catch (error) {
+        res.status(201).json(error);
+
+    }
 }
 
-module.exports = {create, readItem, readAll, updateItem, deleteItem}
+async function deleteItem(req, res, next) {
+    const id = req.body.id;
+
+    try {
+        const data = await Data.findByIdAndDelete(id)
+    } catch (error) {
+
+    }
+}
+
+module.exports = { create, readItem, readAll, updateItem, deleteItem }
