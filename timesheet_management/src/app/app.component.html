@@ -1,42 +1,64 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="timeSheetApp">
-
-<head>
-  <meta charset="UTF-8">
-  <title>Time Sheet</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-</head>
-
-<body ng-controller="timeSheetController" class="container">
-  <h2>TimeSheet Entries</h2>
-
-
-  <div class="top">
-    <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="TASK">
-    </mat-form-field>
-    <div>
-      <button ng-click="addEntry()">Search</button>
-      <button ng-click="addEntry()">Create</button>
-    </div>
+<main class="main">
+  <div>
+    <h1 class="h1">
+      TimeSheet Entries
+    </h1>
   </div>
 
-  <!-- <table border="1">
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Hours Worked</th>
-        <th>Task</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="entry in timeSheetEntries">
-        <td>{{ entry.date }}</td>
-        <td>{{ entry.hours }}</td>
-        <td>{{ entry.task }}</td>
-      </tr>
-    </tbody>
-  </table> -->
-</body>
+  <div>
+    <mat-form-field class="mat-form-field">
+      <input matInput (keyup)="applyFilter($event)" placeholder="Task" />
+    </mat-form-field>
+  </div>
 
-</html>
+  <div>
+    <mat-table class="mat-table" [dataSource]="dataSource">
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="weight">
+        <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="symbol">
+        <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+      </ng-container>
+
+      <!-- Action Column-->>
+      <ng-container matColumnDef="update">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Edit </mat-header-cell>
+        <mat-cell *matCellDef="let element"> <button mat-icon-button matTooltip="Click to Edit" class="iconbutton"
+            color="primary" (click)="edit(element)">
+            <mat-icon>edit</mat-icon>
+          </button> </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Delete </mat-header-cell>
+        <mat-cell *matCellDef="let element"> <button mat-icon-button matTooltip="Click to Delete" class="iconbutton"
+            (click)="delete(element.id)" color="warn">
+            <mat-icon>delete</mat-icon>
+          </button> </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+  </div>
+
+
+</main>
