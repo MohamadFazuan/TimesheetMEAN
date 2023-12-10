@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from '../../environment/environment.dev';
+import { Project } from '../../interface/interface';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +15,8 @@ export class AppService {
     return this.http.post(environment.URL_ADDDRESS + '/create', body);
   }
 
-  readAll = () => {
-    return this.http.get(environment.URL_ADDDRESS + '/readAll');
+  readAll = (): Observable<Project[]> => {
+    return this.http.get<Project[]>(environment.URL_ADDDRESS + '/readAll');
   }
 
   readItem = (body: JSON) => {
